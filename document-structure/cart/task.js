@@ -6,7 +6,6 @@ let buttonsAddProduct = Array.from(document.querySelectorAll('.product__add'))
 products.forEach((product) => {
     let productControls = Array.from(product.querySelectorAll('.product__quantity-control'))
     let productValue = product.querySelector('.product__quantity-value')
-    let buttonsAddProduct = product.querySelector('.product__add')
    
     productControls.forEach((productControl) => {
         if (productControl.textContent.trim() == '-'){
@@ -29,19 +28,17 @@ buttonsAddProduct.forEach((button) => {
         let id = parent.getAttribute('data-id')
         let img = parent.querySelector('img').src
         let count = parent.querySelector('.product__quantity-value').textContent
-        let productInCart = document.createElement('div')
-        productInCart.className = 'cart__product'
-        productInCart.dataset.id = id
-        productInCart.insertAdjacentHTML('afterbegin', `
-                <img class="cart__product-image" src="${img}">
-                <div class="cart__product-count">${count}</div>`)
-        const productInCard = inCart.find((elem) => elem.getAttribute('data-id') === productInCart.dataset.id);
+        
+        const productInCard = inCart.find((elem) => elem.getAttribute('data-id') === id);
         if(productInCard) {
             let count3 = +(productInCard.lastElementChild.textContent)     
-            productInCard.lastElementChild.textContent = count3 +  Number(productInCart.children[1].textContent)
+            productInCard.lastElementChild.textContent = count3 +  Number(count)
         } else {
-            cart.appendChild(productInCart)
+       cart.insertAdjacentHTML('afterbegin', `
+            <div class="cart__product" data-id="${id}">
+                <img class="cart__product-image" src="${img}">
+                <div class="cart__product-count">${count}</div>
+             </div>`)
         } 
     })
-
 })
