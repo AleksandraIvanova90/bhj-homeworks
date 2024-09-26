@@ -1,13 +1,9 @@
 let textarea = document.querySelector('textarea')
 const button = document.querySelector('button')
-let text = 0
-
-const storedText = localStorage.getItem('text')
-textarea.textContent = storedText
+textarea.textContent = localStorage.getItem('text')
 
 textarea.addEventListener('input', () => {
-    text = textarea.value
-    localStorage.setItem('text', text)
+    localStorage.setItem('text', textarea.value)
 })
 
 button.addEventListener('click', ()=>{
