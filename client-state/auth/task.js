@@ -1,31 +1,33 @@
-const signin = document.getElementById('signin')
-const welcome = document.getElementById('welcome')
-const span =  document.getElementById('user_id')
+const signin = document.getElementById('signin');
+const form = document.querySelector('form');
+const welcome = document.getElementById('welcome');
+const span =  document.getElementById('user_id');
 
 if (localStorage.user_id !== undefined) {
-    signin.classList.remove('signin_active')
-    welcome.classList.add('welcome_active')
-    span.textContent = localStorage.user_id
+    signin.classList.remove('signin_active');
+    welcome.classList.add('welcome_active');
+    span.textContent = localStorage.user_id;
 }
-document.querySelector('form').addEventListener('submit', (e) => {
+form.addEventListener('submit', (e) => {
     e.preventDefault();
-
     const xhr = new XMLHttpRequest();
-    xhr.addEventListener('readystatechange', () => {
+    xhr.responseType = 'json';
+    xhr.addEventListener('load', () => {
         if (xhr.readyState == xhr.DONE) {
-            const data = JSON.parse(xhr.response);
+            const data = xhr.response;
             if (data.success == false) {
-                alert('Неверный логин/пароль')
+                alert('Неверный логин/пароль');
+                form.reset()
+            } else {
+                localStorage.setItem('user_id', data.user_id);
+                signin.classList.remove('signin_active');
+                welcome.classList.add('welcome_active');
+                span.textContent = data.user_id;
             }
-            localStorage.setItem('user_id', data.user_id)
-            signin.classList.remove('signin_active')
-            welcome.classList.add('welcome_active')
-            span.textContent = data.user_id
-        }
-
+        }        
     })
-    xhr.open('POST', 'https://students.netoservices.ru/nestjs-backend/auth')
-    const formData = new FormData(document.querySelector('form'))
-    xhr.send(formData)
+    xhr.open('POST', 'https://students.netoservices.ru/nestjs-backend/auth');
+    const formData = new FormData(form);
+    xhr.send(formData);
 })
 

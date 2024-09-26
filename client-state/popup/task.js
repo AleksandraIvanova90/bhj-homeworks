@@ -11,15 +11,10 @@ modal.querySelector('.modal__close').addEventListener('click', () => {
 
 function getCookie(name) {
     let pairs = document.cookie.split('; ');
-    try {
-        const cookie = pairs.find(p => p.startsWith(name + '='));
-        return cookie.substring(name.length =1);
-    } catch (e) {
-        console.log(e)
-        return null;
-    }
+    const cookie = pairs.find(p => p.startsWith(name + '='));
+    return cookie.substring(name.length + 1);
 }
 
 function setCookie (name, value) {
-    document.cookie = name + '=' + encodeURIComponent(value) +'; expires=Tue, 19 Jan 2038 03:14:07 GMT' + '; Secure; SameSite=None';
+    document.cookie = name + '=' + encodeURIComponent(value) + '; Secure; SameSite=None';
 }
